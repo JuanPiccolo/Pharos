@@ -27,6 +27,11 @@ A minimal, vibe-coded C-Go bridge for GTK WebKit with a very small surface area.
                   -+########*-.
                      :-
 
+> **⚠️ Early Prototype / Proof of Concept**
+> 
+> This was a quick vibe-coded experiment. It currently only works on my machine, contains hard-coded paths, memory leaks, and other issues. 
+> It is **not production-ready**. I'm keeping it public as a learning project and to get feedback from the community.
+
 ## Overview
 
 This bridge lets you:
