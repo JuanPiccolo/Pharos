@@ -146,6 +146,7 @@ async function SendToOtherWindow() {
 - Keep argument types accurate (`string`, `int`, `bool`, etc.).
 - Every call needs a unique address (you can reuse them across calls if you want, but unique is safer).
 - All communication is done via JSON under the hood.
+- Once you are finished with your html and handlers, use BridgeDev.sh to allow use of the web console and BridgeBuild.sh to not allow it.
 
 
 
