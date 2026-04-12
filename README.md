@@ -144,8 +144,12 @@ async function SendToOtherWindow() {
     terminal.value += "Result: " + ReturnValue + "\n";
 }
 ```
+#### 7. After compiling
 
----
+Check over all commands with the exception of "pass the string."
+
+After opening a window from a string, then use "pass the string" to see the main window pass a command to a child window.
+ ---
 
 ### Additional Tips:
 - Keep argument types accurate (`string`, `int`, `bool`, etc.).
