@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Title</title>
+</head>
+<body>
+
+<script src="railroadTracks.js"></script>
+<script>
+
+
+// handleSayHello [Name]
+async function FirstCall() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+    // Now this works exactly as you envisioned!
+    let ReturnValue = await CallCGo("SayHello", "AdrLane1", "Main Window", ["Juan"], ["string"]);
+    // ...The moment resolve() is triggered in ReceiveFromGo,
+    // ReturnValue suddenly populates with the data, and the code continues!
+    // Set values based on the return
+    terminal.value += "Go says: " + ReturnValue + "\n";
+}
+
+// handleReadFile 1 [String to file to be read]
+async function ReadIn() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+    // Now this works exactly as you envisioned!
+    let ReturnValue = await CallCGo("ReadFile", "AdrLane2", "Main Window", ["Misc/SomeText.txt"], ["string"]);
+    // ...The moment resolve() is triggered in ReceiveFromGo,
+    // ReturnValue suddenly populates with the data, and the code continues!
+    // Set values based on the return
+    terminal.value += "Go says: " + ReturnValue + "\n";
+}
+
+
+
+// handleStringSend [pathtofile, contentToBeWritten]
+async function WriteIn() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("WriteFile", "AdrLane3", "Main Window", ["Misc/WrittenIn.txt", contentToBeWritten], ["string", "string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function CheckFileExistsTrue() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("DoesFileExist", "AdrLane4", "Main Window", ["Misc/WrittenIn.txt"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function CheckFileExistsFalse() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("DoesFileExist", "AdrLane5", "Main Window", ["Misc/WrittenIn777.txt"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function HasTypeExtensionJSTrue() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("HasTypeExtension", "AdrLane6", "Main Window", ["Misc/Thomas.txt", "txt"], ["string", "string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function HasTypeExtensionJSFalse() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("HasTypeExtension", "AdrLane7", "Main Window", ["Misc/Thomas.txt", "gbp"], ["string", "string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function IsFolderLocationRealJSTrue() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("IsFolderLocationReal", "AdrLane8", "Main Window", ["Misc"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function IsFolderLocationRealJSFalse() {
+    let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("IsFolderLocationReal", "AdrLane9", "Main Window", ["Misc2"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function MakeDirectoryJS() {
+    //let contentToBeWritten = document.getElementById("htmlTerminalHTMLID").value;
+    let ReturnValue = await CallCGo("MakeDirectory", "AdrLane10", "Main Window", ["NewDir"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function GetFolderContentsByPathJS() {
+    let ReturnValue = await CallCGo("GetFolderContentsByPath", "AdrLane11", "Main Window", ["Misc"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function GetFolderFoldersByPathJS() {
+    let ReturnValue = await CallCGo("GetFolderFoldersByPath", "AdrLane12", "Main Window", ["Misc"], ["string"]);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+async function PickFileJS() {
+    let ReturnValue = await CallCGo("PickFile", "AdrLane13", "Main Window", [], []);
+    console.log("File picked from C:", ReturnValue);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+// This is the function C will look for and execute once the file is picked!
+function OnFilePicked(filePath) {
+    console.log("Actual file picked from C:", filePath);
+    document.getElementById("htmlTerminalHTMLID").value = filePath;
+}
+
+async function PickFolderJS() {
+    let ReturnValue = await CallCGo("PickFolder", "AdrLane14", "Main Window", [], []);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+// This is the function C will look for and execute once the folder is picked!
+function OnFolderPicked(folderPath) {
+    //console.log("Actual folder picked from C:", folderPath);
+    document.getElementById("htmlTerminalHTMLID").value = folderPath;
+}
+
+async function ShowMessageJS() {
+    let ReturnValue = await CallCGo("ShowMessage", "AdrLane15", "Main Window", ["Title", "Message"], ["string", "string"]);
+}
+
+async function ConfirmMessageJS() {
+        let ReturnValue = await CallCGo("ConfirmMessage", "AdrLane16", "Main Window", ["Title", "Message"], ["string", "string"]);
+}
+
+
+
+function OnConfirmResult(resultBool) {
+    console.log("User clicked confirm choice:", resultBool);
+    document.getElementById("htmlTerminalHTMLID").value = "Confirm Result: " + resultBool;
+}
+
+
+
+
+
+/*----------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------*/
+//#region Window Control
+async function OpenNewWindow() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+
+    // 1. Await the call first
+    let response = await CallCGo("OpenNewWindow", "Adr17TryNewWindowLane", "Main Window", ["AnotherWindow", "HTMLAddress", "AnotherPage.html", 800, 700], ["string", "string", "string", "int", "int"]);
+
+    // 2. Then do the logic
+    let NewWindowOpenResult = (response === "true");
+    //alert("Success: " + NewWindowOpenResult);
+    terminal.value += "Go says: " + NewWindowOpenResult + "\n";
+}
+
+async function OpenNewWindowFromString() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+    // 1. Await the call first
+    let response = await CallCGo("OpenNewWindow", "Adr18TryNewWindowLane", "Main Window", ["Another Window", "HTMLString", "PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KPG1ldGEgY2hhcnNldD0iVVRGLTgiPgo8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEuMCI+Cjx0aXRsZT5Bbm90aGVyIFBhZ2U8L3RpdGxlPgoKPC9oZWFkPgo8Ym9keT4KPGRpdiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyI+CkFub3RoZXIgUGFnZTxicj4KPGJyPgo8aW1nIHNyYz0iaW1nL0dUS0dvQmFnNDgucG5nIj4KPC9kaXY+Cgo8c3BhbiBpZD0iTWVzc2FnZVJlY2lldmVySFRNTElEIj48L3NwYW4+Cgo8L2JvZHk+CjwvaHRtbD4=", 800, 600], ["string", "string", "string", "int", "int"]);
+    // 2. Then do the logic
+    let NewWindowOpenResult = (response === "true");
+    //alert("Success: " + NewWindowOpenResult);
+    terminal.value += "Go says: " + NewWindowOpenResult + "\n";
+}
+
+// handleStringSend [string to execute in other window]
+async function SendToOtherWindow() {
+    //const terminal = document.getElementById("htmlTerminalHTMLID");
+    // Now this works exactly as you envisioned!
+    let ReturnValue = await CallCGo("StringSend", "AdrLane19", "Another Window", ["document.getElementById('MessageRecieverHTMLID').innerHTML = 'test past!'"], ["string"]);
+}
+
+async function OpenWindowB() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+
+    // 1. Await the call first
+    let response = await CallCGo("OpenNewWindow", "Adr20TryNewWindowLane", "Main Window", ["AnotherWindowB", "HTMLAddress", "AnotherPageB.html", 800, 700], ["string", "string", "string", "int", "int"]);
+
+    // 2. Then do the logic
+    let NewWindowOpenResult = (response === "true");
+    //alert("Success: " + NewWindowOpenResult);
+    terminal.value += "Go says: " + NewWindowOpenResult + "\n";
+}
+
+async function CloseWindowJS() {
+    let CloseWindowResult = (await CallCGo("CloseWindow", "Adr21TryNewwindowLane", "Main Window", ["AnotherWindow"], ["string"]) === "true"); // I'd like this to return true or false
+    document.getElementById("htmlTerminalHTMLID").value = CloseWindowResult;
+}
+//#endregion
+</script>
+ 1. <button onclick="FirstCall()">First Call</button>&nbsp;
+ 2. <button onclick="ReadIn()">Read File</button>&nbsp;
+ 3. <button onclick="WriteIn()">Write It</button>
+ 4. <button onclick="CheckFileExistsTrue()">Check File Exists True</button>
+ 5. <button onclick="CheckFileExistsFalse()">Check File Exists False</button>
+ 6. <button onclick="HasTypeExtensionJSTrue()">Check File Extension True</button>
+ 7. <button onclick="HasTypeExtensionJSFalse()">Check File Extension False</button>
+ 8. <button onclick="IsFolderLocationRealJSTrue()">Is Folder Location Real True</button>
+ 9. <button onclick="IsFolderLocationRealJSFalse()">Is Folder Location Real False</button>
+10. <button onclick="MakeDirectoryJS()">Make Directory</button>
+11. <button onclick="GetFolderContentsByPathJS()">Get Folder Contents By Path</button>
+12. <button onclick="GetFolderFoldersByPathJS()">Get Folder Folders By Path</button>
+13. <button onclick="PickFileJS()">Pick File</button>
+14. <button onclick="PickFolderJS()">Pick Folder</button>
+15. <button onclick="ShowMessageJS()">Message</button>
+16. <button onclick="ConfirmMessageJS()">Confirm Message</button>
+<br>
+17. <button onclick="OpenNewWindow()">Open New Window</button><br>
+19. <button onclick="OpenNewWindowFromString()">Open New Window from String</button><br>
+20. <button onclick="SendToOtherWindow()">Send to String Window</button><br>
+21. <button onclick="OpenWindowB()">Open Window B</button><br>
+<button onclick="CloseWindowJS()">Close New Window The non-string Window</button><br>
+<textarea id="htmlTerminalHTMLID" rows="15" cols="70"></textarea>
+<br><br>
+<h3>MessageRecieverMainPageHTMLID:</h3>
+<span id="MessageRecieverMainPageHTMLID"></span><br><br>
+<h3>MessageRecieverMainPageHTMLID2:</h3>
+<span id="MessageRecieverMainPage2HTMLID"></span><br><br>
+</body>
+</html>

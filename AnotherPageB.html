@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnotherWindowB</title>
+
+</head>
+<body>
+<script src="railroadTracks.js"></script>
+<div style="text-align: center;">
+AnotherWindowB<br>
+<br>
+<img src="img/Pharos.png">
+</div>
+
+<span id="MessageReciever333HTMLID"></span><br>
+22. <button onclick="SendToAnotherWindow()">Send to AnotherWindow -Nonstring window-</button><br>
+23. <button onclick="SendToAnotherWindow2()">Send to MainWindow</button><br>
+
+24. <button onclick="PickFileJS()">Pick File</button>
+25. <button onclick="PickFolderJS()">Pick Folder</button>
+
+<script>
+
+async function SendToAnotherWindow() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+    // Now this works exactly as you envisioned!
+    let ReturnValue = await CallCGo("StringSend", "AdrLane19", "AnotherWindow", ["document.getElementById('MessageRecieverBHTMLID').innerHTML = 'test past!'"], ["string"]);
+}
+
+async function SendToAnotherWindow2() {
+    const terminal = document.getElementById("htmlTerminalHTMLID");
+    // Now this works exactly as you envisioned!
+    let ReturnValue = await CallCGo("StringSend", "AdrLane19", "Main Window", ["document.getElementById('MessageRecieverMainPage2HTMLID').innerHTML = 'test past!'"], ["string"]);
+}
+
+async function PickFileJS() {
+    let ReturnValue = await CallCGo("PickFile", "AdrLane13", "AnotherWindowB", [], []);
+    console.log("File picked from C:", ReturnValue);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+// This is the function C will look for and execute once the file is picked!
+function OnFilePicked(filePath) {
+    console.log("Actual file picked from C:", filePath);
+    document.getElementById("htmlTerminalHTMLID").value = filePath;
+}
+
+async function PickFolderJS() {
+    let ReturnValue = await CallCGo("PickFolder", "AdrLane14", "AnotherWindowB", [], []);
+    document.getElementById("htmlTerminalHTMLID").value = ReturnValue;
+}
+
+// This is the function C will look for and execute once the folder is picked!
+function OnFolderPicked(folderPath) {
+    //console.log("Actual folder picked from C:", folderPath);
+    document.getElementById("htmlTerminalHTMLID").value = folderPath;
+}
+</script>
+<br>
+<textarea rows="15" cols="70" id="htmlTerminalHTMLID"></textarea>
+</body>
+</html>
